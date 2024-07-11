@@ -87,8 +87,8 @@ const deleteProduct = async (req, res) => {
 };
 
 
-
-//Functionn for Search Product by name
+// Akash Singh=>  ADD
+//Functionn for Search Product by name  ->   
 const queryProductsByName = async (req, res) => {
     try {
         const name = req.params.productname;
@@ -122,6 +122,7 @@ module.exports = {
     updateProduct,
 
     deleteProduct,
-
+    
+// Akash Singh=>  ADD
     queryProductsByName
 }

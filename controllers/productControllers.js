@@ -51,7 +51,8 @@ const updateProduct =  async (req, res) => {
         
         console.log(name,price,description,'payloads')
         if(req.file){
-            let newImageUrl = `${process.env.API_DOMAIN}/uploads/${req.file.filename}`
+            // let newImageUrl = `${process.env.API_DOMAIN}/uploads/${req.file.filename}`
+            let newImageUrl = `https://divueens-backend.onrender.com/uploads/${req.file.filename}`
             updatedFields.imageUrl = newImageUrl
 
             const existingItem = await Product.findById(_id)

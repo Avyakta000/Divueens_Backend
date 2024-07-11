@@ -14,6 +14,7 @@ router.post('/products',authMiddleware,multer.single('image'),uploadProduct)
 router.put('/products/:_id',authMiddleware,multer.single('image'),updateProduct)
 router.delete('/delete/:id',authMiddleware,deleteProduct)
 
+// Akash Singh=>  Added productname search route
 router.get('/search/:productname', queryProductsByName);
 
 module.exports = router

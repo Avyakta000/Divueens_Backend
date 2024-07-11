@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // enabling CORS for some specific origins only. 
 const corsOptions = {
-    origin: ['http://localhost:5173', 'https://divueens-frontend.vercel.app'],
+    origin: [process.env.CLIENT_URL, process.env.DIVUEENS_URL],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
   };
 

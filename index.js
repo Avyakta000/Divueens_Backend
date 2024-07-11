@@ -23,8 +23,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // enabling CORS for some specific origins only. 
+// const corsOptions = {
+//     origin: [process.env.CLIENT_URL, process.env.DIVUEENS_URL],
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
+//   };
+
 const corsOptions = {
-    origin: [process.env.CLIENT_URL, process.env.DIVUEENS_URL],
+    origin: 'https://divueens-admin.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
   };
 

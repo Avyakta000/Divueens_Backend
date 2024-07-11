@@ -24,9 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // enabling CORS for some specific origins only. 
 const corsOptions = {
-    origin: 'http://localhost:5173', // Remove trailing slash
+    origin: ['http://localhost:5173', 'https://divueens-frontend.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
-  }; 
+  };
+
+
+ 
+
    
 app.use(cors(corsOptions)); // Allowing cross-origin requests on api's
 
@@ -49,8 +53,6 @@ const userRoutes = require('./routes/authRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
 
 
-
-
 app.use("/auth/",userRoutes)
 app.use("/api/",productRoutes)
 
@@ -64,7 +66,7 @@ app.get("/",(req, res)=>{
 
 
 app.listen(process.env.PORT, () => {
-    console.log(process.env.JWT_SECRET, process.env.PORT)
+    // console.log(process.env.JWT_SECRET, process.env.PORT)
     console.log(`Server running on http://localhost:${process.env.PORT}`);
 });
 

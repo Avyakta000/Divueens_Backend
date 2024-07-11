@@ -7,7 +7,7 @@ const getProducts = async (req, res) => {
     try {
         const products = await Product.find();
         console.log(products, '/getproducts')
-        const resp = res.json(products);
+        return res.json(products);
         // console.log(resp, "response")
     } catch {
         return res.json({ error: "error occured" })
@@ -51,18 +51,21 @@ const updateProduct =  async (req, res) => {
         
         console.log(name,price,description,'payloads')
         if(req.file){
-            let newImageUrl = `http://localhost:${process.env.PORT}/uploads/${req.file.filename}`
+            let newImageUrl = `${process.env.API_DOMAIN}/uploads/${req.file.filename}`
             updatedFields.imageUrl = newImageUrl
+
+            const existingItem = await Product.findById(_id)
+            console.log('image', req.file.filename)
+            console.log('updated fields', updatedFields)
+            if (req.file && existingItem.imageUrl) {
+            const filename = path.basename(existingItem.imageUrl);
+            const imagePath = path.join(__dirname,'..', '/uploads', filename);
+            console.log('old image path updating', imagePath,__dirname)
+            await deleteFile(imagePath);
+    
+            }
         }
 
-        const existingItem = await Product.findById(_id)
-
-        if (req.file && existingItem.imageUrl) {
-        const filename = path.basename(existingItem.imageUrl);
-        const imagePath = path.join(__dirname, '/uploads', filename);
-        await deleteFile(imagePath);
-
-        }
 
         const updatedProduct = await Product.findByIdAndUpdate(_id, updatedFields , { new: true });
         res.json(updatedProduct);
@@ -76,8 +79,15 @@ const deleteProduct = async (req, res) => {
 
     try {
         const { id } = req.params;
-        const updatedProduct = await Product.findByIdAndDelete(id);
-        res.json(updatedProduct);
+        const existingItem = await Product.findByIdAndDelete(id);
+
+        if (existingItem.imageUrl) {
+            const filename = path.basename(existingItem.imageUrl);
+            const imagePath = path.join(__dirname,'..', '/uploads', filename);
+            console.log('image path deleting', imagePath,__dirname)
+            await deleteFile(imagePath);
+        }
+        res.json(existingItem);
 
     } catch (error) {
 

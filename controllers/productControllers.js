@@ -31,7 +31,9 @@ const uploadProduct =  async (req, res) => {
         console.log(req.body, "request .....................................")
         const { name, price, description, } = req.body;
         const fileName = req.file.filename;
-        const imageUrl = `http://localhost:${process.env.PORT}/uploads/${fileName}`
+        // const imageUrl = `http://localhost:${process.env.PORT}/uploads/${fileName}`
+        const imageUrl = `https://divueens-backend.onrender.com/uploads/${fileName}`
+
         const newProduct = new Product({ name, price, description, imageUrl });
         await newProduct.save();
         const resp = res.json(newProduct);

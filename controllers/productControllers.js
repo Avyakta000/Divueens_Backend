@@ -87,6 +87,18 @@ const deleteProduct = async (req, res) => {
 };
 
 
+
+//Functionn for Search Product by name
+const queryProductsByName = async (req, res) => {
+    try {
+        const name = req.params.productname;
+      const products = await Product.find({ name: new RegExp(name, 'i') });
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
 // Function to delete a file asynchronously (helper function)
 async function deleteFile(filePath) {
     try {
@@ -97,6 +109,7 @@ async function deleteFile(filePath) {
         throw error; // Re-throw the error to handle it in the calling function
     }
 }
+  
 
 
 module.exports = {
@@ -108,5 +121,7 @@ module.exports = {
 
     updateProduct,
 
-    deleteProduct
+    deleteProduct,
+
+    queryProductsByName
 }

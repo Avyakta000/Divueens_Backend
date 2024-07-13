@@ -1,10 +1,12 @@
 const {Product} = require('../models/product')
+const Category = require('../models/category');
 const path = require('path');
 const fs = require('fs').promises;
 
 
 const getProducts = async (req, res) => {
     try {
+        
         const products = await Product.find();
         console.log(products, '/getproducts')
         const resp = res.json(products);
@@ -29,10 +31,16 @@ const uploadProduct =  async (req, res) => {
 
     try{
         console.log(req.body, "request .....................................")
+        const { categoryNumber } = req.body;
+        const category = await Category.findOne({ categoryNumber });
+        if (!category) {
+          return res.status(400).json({ error: 'Invalid category number' });
+        }
+
         const { name, price, description, } = req.body;
         const fileName = req.file.filename;
         const imageUrl = `http://localhost:${process.env.PORT}/uploads/${fileName}`
-        const newProduct = new Product({ name, price, description, imageUrl });
+        const newProduct = new Product({ name, price, description, imageUrl, category: category._id });
         await newProduct.save();
         const resp = res.json(newProduct);
 
@@ -47,6 +55,12 @@ const updateProduct =  async (req, res) => {
     try {
         const { _id } = req.params;
         const { name, price, description } = req.body;
+        const { categoryNumber } = req.body;
+        const category = await Category.findOne({ categoryNumber });
+
+        if (!category) {
+            return res.status(400).json({ error: 'Invalid category number' });
+        }
         let updatedFields = {name, price, description}
         
         console.log(name,price,description,'payloads')
@@ -54,7 +68,7 @@ const updateProduct =  async (req, res) => {
             let newImageUrl = `http://localhost:${process.env.PORT}/uploads/${req.file.filename}`
             updatedFields.imageUrl = newImageUrl
         }
-
+        updatedFields.category=category._id;
         const existingItem = await Product.findById(_id)
 
         if (req.file && existingItem.imageUrl) {

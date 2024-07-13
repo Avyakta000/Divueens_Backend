@@ -7,8 +7,9 @@ const multer = require('../middlewares/multer')
 router.get('/products',getProducts)
 router.get('/product/:_id',getSingleProduct)
 
-
-router.post('/products',authMiddleware,multer.single('image'),uploadProduct)
+// authMiddleware
+// multer.single('image')
+router.post('/products',uploadProduct)
 
 
 router.put('/products/:_id',authMiddleware,multer.single('image'),updateProduct)

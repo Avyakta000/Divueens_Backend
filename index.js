@@ -35,7 +35,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // initializing sessions
-require('./config/passport');
+// require('./config/passport');
 
 
 
@@ -47,12 +47,18 @@ connectDB()
 //define all your routes below...............................check here
 const userRoutes = require('./routes/authRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
+//Akash -> categoryroutes path
+const categoryRoutes = require('./routes/categoryRoutes.js')
+
 
 
 
 
 app.use("/auth/",userRoutes)
 app.use("/api/",productRoutes)
+//Akash -> added category routes
+app.use("/api/",categoryRoutes)
+
 
 //define all your routes above...............................check here
 

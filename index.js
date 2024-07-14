@@ -28,15 +28,15 @@ app.use(express.urlencoded({ extended: true }));
 //     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
 //   };
 
-// const corsOptions = {
-//     origin: 'https://divueens-admin.vercel.app',
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
-//   };
-
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: process.env.CLIENT_URL,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
   };
+
+// const corsOptions = {
+//     origin: 'http://localhost:5173',
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
+//   };
 
 
  

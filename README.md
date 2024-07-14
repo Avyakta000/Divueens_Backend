@@ -26,6 +26,7 @@ The backend provides APIs for managing beauty and cosmetic products.
 Refer to the routes/ directory for available endpoints and their functionalities.
 
 ## Contribution
-We welcome contributions to improve Divueens! To contribute:
+We welcome contributions to improve Divueens!
+To contribute you can follow the aboe steps.
 
 

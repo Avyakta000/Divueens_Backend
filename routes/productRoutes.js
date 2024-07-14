@@ -4,14 +4,16 @@ const {getSingleProduct, getProducts, uploadProduct, updateProduct, deleteProduc
 const authMiddleware = require('../middlewares/authMiddleware')
 const multer = require('../middlewares/multer')
 
+const upload = require('../config/multerConfig'); 
+
 router.get('/products',getProducts)
 router.get('/product/:_id',getSingleProduct)
 
 
-router.post('/products',authMiddleware,multer.single('image'),uploadProduct)
+router.post('/products',authMiddleware,upload.single('image'),uploadProduct)
 
 
-router.put('/products/:_id',authMiddleware,multer.single('image'),updateProduct)
+router.put('/products/:_id',authMiddleware,upload.single('image'),updateProduct)
 router.delete('/delete/:id',authMiddleware,deleteProduct)
 
 module.exports = router

@@ -1,6 +1,8 @@
 const {Product} = require('../models/product')
-const path = require('path');
-const fs = require('fs').promises;
+// const path = require('path');
+// const fs = require('fs').promises;
+const { DeleteObjectCommand,  } = require('@aws-sdk/client-s3');
+const s3Client = require('../config/awsConfig');
 
 
 const getProducts = async (req, res) => {
@@ -15,6 +17,7 @@ const getProducts = async (req, res) => {
 
 };
 
+
 const getSingleProduct =  async (req, res) => {
     const { _id } = req.params;
     try {
@@ -25,15 +28,12 @@ const getSingleProduct =  async (req, res) => {
     }
 };
 
+
 const uploadProduct =  async (req, res) => {
 
     try{
-        console.log(req.body, "request .....................................")
         const { name, price, description, } = req.body;
-        const fileName = req.file.filename;
-        // const imageUrl = `http://localhost:${process.env.PORT}/uploads/${fileName}`
-        const imageUrl = `https://divueens-backend.onrender.com/uploads/${fileName}`
-
+        const imageUrl = req.file.location;
         const newProduct = new Product({ name, price, description, imageUrl });
         await newProduct.save();
         const resp = res.json(newProduct);
@@ -43,73 +43,66 @@ const uploadProduct =  async (req, res) => {
     }
         
 };
-    
-const updateProduct =  async (req, res) => {
+
+
+const updateProduct = async (req, res) => {
 
     try {
-        const { _id } = req.params;
+        const product = await Product.findById(req.params._id);
         const { name, price, description } = req.body;
         let updatedFields = {name, price, description}
-        
-        console.log(name,price,description,'payloads')
-        if(req.file){
-            // let newImageUrl = `${process.env.API_DOMAIN}/uploads/${req.file.filename}`
-            let newImageUrl = `https://divueens-backend.onrender.com/uploads/${req.file.filename}`
-            updatedFields.imageUrl = newImageUrl
-
-            const existingItem = await Product.findById(_id)
-            console.log('image', req.file.filename)
-            console.log('updated fields', updatedFields)
-            if (req.file && existingItem.imageUrl) {
-            const filename = path.basename(existingItem.imageUrl);
-            const imagePath = path.join(__dirname,'..', '/uploads', filename);
-            console.log('old image path updating', imagePath,__dirname)
-            await deleteFile(imagePath);
-    
-            }
+        if (!product) {
+          return res.status(404).json({ message: "Product not found" });
         }
-
-
-        const updatedProduct = await Product.findByIdAndUpdate(_id, updatedFields , { new: true });
+    
+        if (req.file) {
+          if (product.imageUrl) {
+            const oldKey = product.imageUrl.split('/').pop();
+            const deleteParams = {
+              Bucket: process.env.S3_BUCKET_NAME,
+              Key: oldKey,
+            };
+            await s3Client.send(new DeleteObjectCommand(deleteParams));
+          }
+          updatedFields.imageUrl = req.file.location;
+        }
+        
+        const updatedProduct = await Product.findByIdAndUpdate(req.params._id, updatedFields , { new: true });
+      
         res.json(updatedProduct);
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+}
 
-    } catch (error) {
-        res.status(500).json(error)
-    }
-};
 
 const deleteProduct = async (req, res) => {
 
     try {
-        const { id } = req.params;
-        const existingItem = await Product.findByIdAndDelete(id);
-
-        if (existingItem.imageUrl) {
-            const filename = path.basename(existingItem.imageUrl);
-            const imagePath = path.join(__dirname,'..', '/uploads', filename);
-            console.log('image path deleting', imagePath,__dirname)
-            await deleteFile(imagePath);
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+          return res.status(404).json({ message: "Product not found" });
         }
-        res.json(existingItem);
-
-    } catch (error) {
-
-        return res.json({ error })
-
-    }
+        
+        if (product.imageUrl) {
+         
+          const key = product.imageUrl.split('/').pop();
+          const deleteParams = {
+            Bucket: process.env.S3_BUCKET_NAME,
+            Key: key,
+          };
+          await s3Client.send(new DeleteObjectCommand(deleteParams));
+        }
+        
+        const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+      
+        return res.json({ message: "Product deleted", deletedProduct });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
 };
 
 
-// Function to delete a file asynchronously (helper function)
-async function deleteFile(filePath) {
-    try {
-        await fs.unlink(filePath);
-        console.log(`Deleted file: ${filePath}`);
-    } catch (error) {
-        console.error(`Error deleting file: ${filePath}`, error);
-        throw error; // Re-throw the error to handle it in the calling function
-    }
-}
 
 
 module.exports = {

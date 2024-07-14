@@ -13,6 +13,11 @@ passport.use(new GoogleStrategy({
 
         if (user) {
             console.log('Existing user found:', user);
+            if (user.role !=="admin") {
+                console.log('this ran')
+                  return done(null, false);
+                }
+               
             done(null, user);
         } else {
             // Create a new user if not found

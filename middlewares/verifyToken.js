@@ -11,6 +11,7 @@ const verifyToken = (req, res, next) => {
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET); // Replace with your JWT secret
     req.user = verified;
+    console.log('verified in server')
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
     res.status(400).json({ message: 'Invalid Token' });

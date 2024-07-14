@@ -1,31 +1,34 @@
-Divueens Backend
+# Divueens Backend
 Welcome to the backend repository of Divueens, a project dedicated to managing beauty and cosmetic products.
  
-Getting Started
+## Getting Started
 To get the backend up and running locally, follow these steps:
 
-Clone the repository:
+## Fork the repository and clone it to get started.
+     ```bash
+    git clone https://github.com/BaoiamApp/Divueens_Backend.git
+    cd Divueens_Backend
+   
+## Install backend dependencies
+    ```bash
+    cd ../Divueens_Backend
+    npm install
+    npm run dev
 
-git clone <url of this repositry>
-cd Divueens_Backend
-Install dependencies:
+## Send your pull request
+    ```bash
+    git add .
+    git commit -m "your comment"
+    git push
 
-npm install
-Set up environment variables:
+## Divueens Backend 
+This project uses a backend API built with Express and MongoDB (using Mongoose) 
 
-Create a .env file in the root directory.
-Define necessary environment variables such as PORT, MONGODB_URI, etc.
-Start the server:
-
-npm start
-API Documentation:
-
+## API Documentation:
 The backend provides APIs for managing beauty and cosmetic products.
 Refer to the routes/ directory for available endpoints and their functionalities.
-Contributing
+
+## Contribution
 We welcome contributions to improve Divueens! To contribute:
 
-Fork the repository and clone it to get started.
-Commit your changes (git commit -am 'Add some feature').
-Push to a branch .
-Create a new Pull Request.
+

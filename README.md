@@ -1,18 +1,5 @@
 Divueens Backend
 Welcome to the backend repository of Divueens, a project dedicated to managing beauty and cosmetic products.
-
-Directory Structure
-Divueens_Backend/
- config/                 # Configuration files (e.g., database, environment variables)
- controllers/            # Controller functions for handling route logic
- middlewares/            # Custom middleware functions
- models/                 # Mongoose models for MongoDB schemas
- routes/                 # Route definitions for Express.js
- uploads/                # Directory for storing uploaded files
- .gitignore              # Git ignore file
- index.js                # Entry point of the application
- package-lock.json       # Auto-generated file for npm
- package.json            # Project metadata and dependencies
  
 Getting Started
 To get the backend up and running locally, follow these steps:

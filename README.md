@@ -5,18 +5,15 @@ Welcome to the backend repository of Divueens, a project dedicated to managing b
 To get the backend up and running locally, follow these steps:
 
 ## Fork the repository and clone it to get started.
-     ```bash
     git clone https://github.com/BaoiamApp/Divueens_Backend.git
     cd Divueens_Backend
    
 ## Install backend dependencies
-    ```bash
     cd ../Divueens_Backend
     npm install
     npm run dev
 
 ## Send your pull request
-    ```bash
     git add .
     git commit -m "your comment"
     git push

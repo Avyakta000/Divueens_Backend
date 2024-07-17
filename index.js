@@ -23,15 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // enabling CORS for some specific origins only. 
-// const corsOptions = {
-//     origin: [process.env.CLIENT_URL, process.env.DIVUEENS_URL],
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
-//   };
-
 const corsOptions = {
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  
   };
+
 
 // const corsOptions = {
 //     origin: 'http://localhost:5173',
@@ -61,10 +57,12 @@ connectDB()
 //define all your routes below...............................check here
 const userRoutes = require('./routes/authRoutes.js')
 const productRoutes = require('./routes/productRoutes.js')
+const bannerRoutes = require('./routes/bannerRoutes.js')
 
 
 app.use("/auth/",userRoutes)
 app.use("/api/",productRoutes)
+app.use("/banner/",bannerRoutes)
 
 //define all your routes above...............................check here
 

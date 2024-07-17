@@ -1,4 +1,5 @@
 const {Product} = require('../models/product')
+const Category = require('../models/category');
 // const path = require('path');
 // const fs = require('fs').promises;
 const { DeleteObjectCommand,  } = require('@aws-sdk/client-s3');
@@ -32,11 +33,11 @@ const getSingleProduct =  async (req, res) => {
 const uploadProduct =  async (req, res) => {
 
     try{
-        const { name, price, description, } = req.body;
+        const { name, price, description, category } = req.body;
         const imageUrl = req.file.location;
-        const newProduct = new Product({ name, price, description, imageUrl });
+        const newProduct = new Product({ name, price, description, category, imageUrl });
         await newProduct.save();
-        const resp = res.json(newProduct);
+        return res.json(newProduct);
 
     }catch(err){
         res.json({error: err.message})
@@ -49,8 +50,10 @@ const updateProduct = async (req, res) => {
 
     try {
         const product = await Product.findById(req.params._id);
-        const { name, price, description } = req.body;
-        let updatedFields = {name, price, description}
+        const { name, price, description, category } = req.body;
+        // change here (category added above and below )
+        let updatedFields = {name, price, description, category}
+       
         if (!product) {
           return res.status(404).json({ message: "Product not found" });
         }
@@ -103,6 +106,17 @@ const deleteProduct = async (req, res) => {
 };
 
 
+// akash query products using name
+const queryProductsByName = async (req, res) => {
+    try {
+        const name = req.params.productname;
+      const products = await Product.find({ name: new RegExp(name, 'i') });
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
 
 
 module.exports = {
@@ -114,5 +128,7 @@ module.exports = {
 
     updateProduct,
 
-    deleteProduct
+    deleteProduct,
+
+    queryProductsByName,
 }

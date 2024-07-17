@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
       // for now no other signups can be accepted so we wont provide authTokens
       const authToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
       
-      return res.status(201).json({ message: 'User registered successfully', authToken, user });
+      return res.status(201).json({ message: 'user registered successfully', authToken, user });
       // uncomment the above statement for accepting newSignups and remove the statement below
       // return res.status(201).json({ message: 'User registered successfully',  user });
 

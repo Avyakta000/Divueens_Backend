@@ -18,9 +18,14 @@ const signUp = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, salt);
       const newUser = new User({ email, password: hashedPassword });
       const user = await newUser.save();
+
+      // for now no other signups can be accepted so we wont provide authTokens
       const authToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
       
       return res.status(201).json({ message: 'User registered successfully', authToken, user });
+      // uncomment the above statement for accepting newSignups and remove the statement below
+      // return res.status(201).json({ message: 'User registered successfully',  user });
+
   } catch (error) {
       return res.status(500).json({ error: error.message });
   }

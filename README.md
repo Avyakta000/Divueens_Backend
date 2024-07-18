@@ -27,6 +27,6 @@ Refer to the routes/ directory for available endpoints and their functionalities
 
 ## Contribution
 We welcome contributions to improve Divueens!
-To contribute you can follow the aboe steps.
+To contribute you can follow the above steps.
 
 

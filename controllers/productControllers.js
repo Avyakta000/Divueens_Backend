@@ -1,7 +1,7 @@
 const {Product} = require('../models/product')
 const Category = require('../models/category');
-// const path = require('path');
-// const fs = require('fs').promises;
+// const path = require('path');                  
+// const fs = require('fs').promises;   fs is not needed anymore 
 const { DeleteObjectCommand,  } = require('@aws-sdk/client-s3');
 const s3Client = require('../config/awsConfig');
 

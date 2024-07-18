@@ -3,6 +3,7 @@ const router = express.Router();
 const { getHomeBanners, uploadBanner, deleteBanner, updateBanner } = require('../controllers/bannerControllers');
 const upload = require('../config/multerConfig'); 
 
+// banner endpoints
 router.get('/', getHomeBanners);
 router.post('/',upload.single('image'), uploadBanner);
 router.delete('/:id', deleteBanner);
